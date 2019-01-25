@@ -1,0 +1,119 @@
+<div class="col-sm-6 offset-sm-3">
+	<!-- show any messages that come back with authentication -->
+	<% if (message.length > 0) { %>
+		<div class="alert alert-danger"><%= message.text %></div>
+	<% } %>
+	<!-- LOGIN FORM -->
+	<form id="signupform" name="signupform" action="/signup" method="post">
+		<div class="form-group">
+			<label for="firstname"><%= __('Firstname') %></label>
+			<input id="firstname" type="text" class="form-control" name="firstname">
+		</div>
+		<div class="form-group">
+			<label  for="lastname"><%= __('Lastname') %></label>
+			<input id="lastname" type="text" class="form-control" name="lastname">
+		</div>
+		<div class="form-group">
+			<p><%= __('Gender') %></p>
+			<div class="custom-control custom-radio custom-control-inline">
+				<input type="radio" value="2" class="custom-control-input" id="male" name="gender">
+				<label for="male" class="custom-control-label" ><%= __('Male') %></label>
+			</div>
+			<div class="custom-control custom-radio custom-control-inline">
+				<input type="radio" value="1" class="custom-control-input" id="female" name="gender">
+				<label for="female" class="custom-control-label" ><%= __('Female') %></label>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label  for="dateborn" ><%= __('Born date') %></label>
+			<input id="dateborn" type="date" class="form-control" name="dateborn">
+		</div>
+		<div class="form-group">
+			<label  for="phone"><%= __('Phone') %></label>
+			<input id="phone" type="text" class="form-control" name="phone">
+		</div>
+		<div class="form-group">
+			<label  for="email"><%= __('Email') %></label>
+			<input id="email" type="text" class="form-control" name="email">
+		</div>
+		<div class="form-group">
+			<label  for="password"><%= __('Password') %></label>
+			<input id="password" type="password" class="form-control" name="password">
+		</div>
+		<div class="form-group">
+			<label  for="confirm"><%= __('Confirm Password') %></label>
+			<input id="confirm" type="password" class="form-control" name="confirm">
+		</div>
+		<div class="form-group text-center">
+			<p class="text-justify"><%= __('Do you agree that the information collected on this form will be recorded in a computerized file by Very Road Trip for the management of its members') %>.<br> <%= __('Your data will be kept for 18 months and will be sent to Very Road Trip') %>.<br>
+				<%= __('In accordance with the') %> <a href="https://www.cnil.fr/fr/loi-78-17-du-6-janvier-1978-modifiee" target="_blank" ><%= __('law « informatique et libertés »') %></a>, <%= __("you can exercise your right of access to the data concerning you and rectify them by contacting") %> : Very Road Trip - TÉL. 06 58 64 74 02</p>
+			<div class="custom-control custom-radio custom-control-inline">
+				<input type="radio" value="0" class="custom-control-input" id="consentno" name="consent" checked>
+				<label for="consentno" class="custom-control-label" ><%= __('No') %></label>
+			</div>
+			<div class="custom-control custom-radio custom-control-inline">
+				<input type="radio" value="1" class="custom-control-input" id="consentyes" name="consent">
+				<label for="consentyes" class="custom-control-label" ><%= __('Yes') %></label>
+			</div>
+		</div>
+		<div class="form-group text-center">
+			<p class="text-justify">
+					<%= __('Do you agree that the information collected on this form will be recorded in a computerized file by Very Road Trip Partners for the management of its members') %>.<br> <%= __('Your data will be kept for 18 months and will be sent to Very Road Trip') %>.<br>
+					<%= __('In accordance with the') %> <a href="https://www.cnil.fr/fr/loi-78-17-du-6-janvier-1978-modifiee" target="_blank" ><%= __('law « informatique et libertés »') %></a>, <%= __("you can exercise your right of access to the data concerning you and rectify them by contacting") %> : Very Road Trip - TÉL. 06 58 64 74 02</p>
+			<div class="custom-control custom-radio custom-control-inline">
+				<input type="radio" value="0" class="custom-control-input" id="consentthirdno" name="consentthird" checked>
+				<label for="consentthirdno" class="custom-control-label" ><%= __('No') %></label>
+			</div>
+			<div class="custom-control custom-radio custom-control-inline">
+				<input type="radio" value="1" class="custom-control-input" id="consentthirdyes" name="consentthird">
+				<label for="consentthirdyes" class="custom-control-label" ><%= __('Yes') %></label>
+			</div>
+		</div>
+		<div class="form-group text-center">
+			<button type="submit" class="btn btn-perso btn-lg"><%= __('Signup') %></button>
+		</div>
+
+	</form>
+	<hr>
+	<p><%= __('Already have an account') %>? <a href="/"><%= __('Login') %></a></p>
+</div>
+<script>
+
+	$(document).on('submit',"#signupform",function (event) {
+		event.preventDefault();
+		// Check each field has a value
+		if (  this.password.value == ''  || this.confirm.value == '') {
+			appendAlert("#password","<%= __('You must provide all the requested information. Try Again') %>");
+			return false;
+		}
+
+		// Check that the password is sufficiently long (min 6 chars)
+		// The check is duplicated below, but this is included to give more
+		// specific guidance to the user
+		if (this.password.value.length < 6) {
+			appendAlert("#password","<%= __('Passwords must be at least 6 characters long. Try Again') %>");
+			this.password.focus();
+			return false;
+		}
+
+		// At least one number, one lowercase and one uppercase letter
+		// At least six characters
+
+		const re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+		if (!re.test(password.value)) {
+			appendAlert("#password","<%= __('Passwords must contain at least one digit, one lowercase and one uppercase letter. Try Again') %>");
+			this.password.focus();
+			return false;
+		}
+
+		// Check password and confirmation are the same
+		if (this.password.value != this.confirm.value) {
+			appendAlert("#password","<%= __('Your password and your confirmation do not match. Try Again') %>");
+			this.password.focus();
+			return false;
+		}
+		this.submit();
+	});
+
+</script>

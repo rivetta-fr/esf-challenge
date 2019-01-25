@@ -1,0 +1,13 @@
+{
+  "name": "Very Road Trip",
+  "description": "Very Road Trip est une entreprise développant un agent de voyage digital!",
+  "scope": "/",
+  "icons": [{
+    "src": "/images/favicon.ico",
+    "sizes": "16x16 32x32 48x48 64x64 72x72 96x96 128x128 256x256"
+  }],
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#11375e",
+  "start_url": "/"
+}

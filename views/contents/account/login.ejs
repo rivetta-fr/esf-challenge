@@ -1,0 +1,53 @@
+<section class="col-sm-6 offset-sm-3">
+    <!-- LOGIN FORM -->
+    <form name="loginform" id="loginform" action="/login" method="post">
+
+        <!-- SELECT TEST DELETE in PRODUCTION -->
+        <div class="form-group">
+            <label for="email"><%= __('Email') %></label>
+            <input id="email" type="email" class="form-control" name="email">
+        </div>
+        <div class="form-group">
+            <label for="password"><%= __('Password') %></label>
+            <input id="password" type="password" class="form-control" name="password">
+        </div>
+        <div class="custom-control custom-checkbox remember" >
+            <input id="remember" type="checkbox" class="custom-control-input ml-3" name="remember" value="yes">
+            <label class="custom-control-label" for="remember"><%= __('Remember Me') %></label>
+        </div>
+        <div class="text-center"><button type="submit" class="btn btn-perso btn-lg"><%= __('Login') %></button></div>
+
+    </form>
+    <hr>
+    <p><a href="/forgot"><%= __('Forgot Password') %>?</a></p>
+    <p><%= __('Need an account') %>? <a href="/signup"><%= __('Signup') %></a>.</p>
+</section>
+
+
+<script>
+    // <!-- SCRIPT TEST DELETE in PRODUCTION -->
+    $("#usertest").on('change', () => {
+        var elt = document.getElementById('usertest');
+        const email =  elt.options[elt.selectedIndex].text.split('(')[0];
+        $("#email").val(email);
+        $("#password").val(elt.value);
+    });
+
+
+    // <!-- END SCRIPT TEST DELETE in PRODUCTION -->
+    $(document).on('submit',"#loginform",function (event) {
+		event.preventDefault();
+		// Check each field has a value
+		if (  this.password.value == ''  || this.email.value == '') {
+			appendAlert("#password", "<%= __('Vous devez fournir tous les informations demandées. Veuillez réessayer') %>");
+			return false;
+        }
+
+        if (  !validateEmail(this.email.value) ) {
+            appendAlert("#password","<%= __('Vous devez fournir un email valide. Veuillez réessayer') %>");
+            this.email.focus();
+			return false;
+        }
+        this.submit();
+    });
+</script>
