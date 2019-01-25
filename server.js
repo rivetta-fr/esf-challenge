@@ -49,7 +49,7 @@ app.use(bodyParser.json());
 
 app.set('view engine', 'ejs'); // set up ejs for templating
 
-const cruddb = require('./server/controller/crud-pg-local');
+const cruddb = require('./server/controller/crud-pg-heroku');
 require('./server/controller/passport')(passport, cruddb, i18n); // pass passport for configuration
 const password = require('./server/controller/password')(cruddb, i18n);
 
