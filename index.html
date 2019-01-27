@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<title>Very Road Trip - ESF Challenge</title>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="description" content="Very Road Trip est une entreprise développant un agent de voyage digital!">
+		<meta name="author" content="rivetta.fr">
+		<!-- Responsive and mobile friendly stuff -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+		<!-- Chrome, Firefox OS and Opera -->
+		<meta name="theme-color" content="#043762">
+		<!-- Windows Phone -->
+		<meta name="msapplication-navbutton-color" content="#043762">
+		<!-- iOS Safari -->
+		<meta name="apple-mobile-web-app-status-bar-style" content="#043762">
+		<!-- FAVICON -->
+		<link rel= "icon" href="favicon.ico" type="image/x-icon">
+		<link rel= "shortcut icon" href="favicon.ico" type="image/x-icon">
+		<link rel="manifest" href="manifest.json">
+
+		<link rel="stylesheet" href="css/style.css"> <!-- load customer style -->
+		<!-- Responsive Stylesheets -->
+		<link rel="stylesheet" media="only screen and (max-width: 768px) and (min-width: 481px)" href="css/medium.css">
+		<link rel="stylesheet" media="only screen and (max-width: 480px)" href="css/small.css">
+		<!-- <link rel="stylesheet" href="/leaflet/leaflet.css"> -->
+		<!-- <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css"/> -->
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<script src="vendor/aframe-v0.8.2.js"></script>
+		<script src='vendor/aframe-ar.js'></script>
+		<script src="src/gps-camera-debug.js"></script>
+		<script src="src/gps-camera-position.js"></script>
+		<script src="src/gps-camera-rotation.js"></script>
+		<script src="src/gps-entity-place.js"></script>
+	</head>
+	<body style='margin: 0px; overflow: hidden;'>
+		<a-scene embedded arjs='sourceType: webcam;'>
+			 <!-- <a-sphere gps-entity-place="latitude: 48.17810; longitude: 6.44371;" radius=5 color=green></a-sphere> -->
+			<!-- <a-text value="eglise de notre dame au cierge"></a-text> -->
+			<!-- brasserie -->
+			<!-- <a-sphere gps-entity-place="latitude: 48.17827; longitude: 6.43932;" radius=5 color=green></a-sphere> -->
+			<!-- <a-sphere gps-entity-place="latitude: 48.1878018; longitude: 6.4528384;" radius=2 color=green></a-sphere> -->
+			<a-entity id="camera" camera gps-camera-position gps-camera-rotation gps-camera-debug></a-camera>
+		</a-scene>
+	</body>
+	<script>
+		//extract POI (2) and Activity (1),  bounds == coordinate of limit of map on the screen
+		async function getPA(){
+			//http://localhost:8080/poi/list?south=48.17670360195661&west=6.433224678039552&north=48.18893611339364&east=6.453266143798829&type=all&datetime=2019-01-28T00%3A35
+			let myRequest = new Request(`data/points.json`, {
+				method: 'GET',
+				headers: new Headers({
+						"Content-Type": "application/json"
+					})
+			});
+			return fetch(myRequest).then(function(response) {
+					return response.json();
+			}).then(function(data) {
+				/*
+				let max = data.length;
+				//create waypoints list
+				let  wayPoints = new Array();
+				let scene = getElementsByTagName('a-scene');
+				for(let index=0; index<max; index++){ //take only 15 item on list
+					//wayPoints.push(data[index]);
+					scene.append('<a-sphere gps-entity-place="latitude: 48.17810; longitude: 6.44371;" radius=5 color=green></a-sphere>');
+
+				}
+				*/
+				console.log( data);
+				return data;
+			}).catch(function(error){
+				console.log(error);
+			});
+		}
+		async function writePoints(){
+			let scene = document.querySelector('a-scene');
+			let points = await getPA();
+			for (let poi of points)	{
+				scene.append(`<a-text value="${poi.po_label}" gps-entity-place="latitude: ${poi.po_latitude}; longitude: ${poi.po_longitude};" radius=5 color=green></a-sphere>`);
+			}
+		}
+		writePoints();
+
+	</script>
+</html>
