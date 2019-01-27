@@ -13,8 +13,20 @@ const path = require('path');
 const app      = express();
 const port     = process.env.PORT || 8080;
 const favicon = require('serve-favicon');
+const i18n = require("i18n");
 
+// configuration ===============================================================
+i18n.configure({
+	locales:['fr', 'en'],
+	directory: __dirname + '/locales',
+	//define the default language
+	defaultLocale: 'fr'
+	 // sets a custom cookie name to parse locale settings from
 
+	// cookie: 'vrti18n'
+});
+// i18n init parses req for language headers, cookies, etc.
+app.use(i18n.init);
 
 app.use(session({
 	name:'VeryRoadTrip-ESF',
