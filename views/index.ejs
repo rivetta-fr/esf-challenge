@@ -77,7 +77,13 @@
 			let scene = document.querySelector('a-scene');
 			let points = await getPA();
 			for (let poi of points)	{
-				scene.append(`<a-text value="${poi.po_label}" gps-entity-place="latitude: ${poi.po_latitude}; longitude: ${poi.po_longitude};" radius=5 color=green></a-sphere>`);
+				var text = document.createElement('a-text');
+				text.setAttribute('value', poi.po_label);
+				text.setAttribute('gps-entity-place', `latitude: ${poi.po_latitude}; longitude: ${poi.po_longitude};`);
+				text.setAttribute('value', poi.po_label);
+
+				// Do `.setAttribute()`s to initialize the entity.
+				scene.appendChild(text);
 			}
 		}
 		writePoints();
