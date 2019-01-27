@@ -13,9 +13,10 @@ const path = require('path');
 const app      = express();
 const port     = process.env.PORT || 8080;
 const favicon = require('serve-favicon');
-const i18n = require("i18n");
+
 
 // configuration ===============================================================
+let title = 'Very Road Trip - ESF - ';
 i18n.configure({
 	locales:['fr', 'en'],
 	directory: __dirname + '/locales',
@@ -69,9 +70,15 @@ app.use('/sw.js', (req, res) => res.sendFile(__dirname +'/public/js/sw/sw.js'));
  // =====================================
 // HOME PAGE (with login links) ========
 // =====================================
+const data = require('./data/points.json')
 app.get('/', function(req, res) {
 	// if user is authenticated in the session, carry on
 	res.render('index');
+});
+
+app.get('/data/points', function(req, res) {
+	// if user is authenticated in the session, carry on
+	res.json(data);
 });
 
 // =============================================================================

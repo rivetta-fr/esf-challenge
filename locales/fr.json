@@ -31,5 +31,6 @@
 	"You must provide all the requested information. Try Again": "You must provide all the requested information. Try Again",
 	"Passwords must be at least 6 characters long. Try Again": "Passwords must be at least 6 characters long. Try Again",
 	"Passwords must contain at least one digit, one lowercase and one uppercase letter. Try Again": "Passwords must contain at least one digit, one lowercase and one uppercase letter. Try Again",
-	"Your password and your confirmation do not match. Try Again": "Your password and your confirmation do not match. Try Again"
+	"Your password and your confirmation do not match. Try Again": "Your password and your confirmation do not match. Try Again",
+	"Error 404 - Cannot find page": "Error 404 - Cannot find page"
 }
